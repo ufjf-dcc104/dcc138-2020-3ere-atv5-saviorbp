@@ -1,11 +1,12 @@
 import Cena from "./Cena.js";
 import Sprite from "./Sprites.js";
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
-const cena1 = new Cena(canvas);
-cena1.desenhar();
 
+const canvas = document.querySelector("canvas");
+const cena1 = new Cena(canvas);
 const pc = new Sprite();
 const en1 = new Sprite({x:140, w:30, color:"red"});
-pc.desenhar(ctx);
-en1.desenhar(ctx);
+
+cena1.adicionar(pc);
+cena1.adicionar(en1);
+
+cena1.desenhar();
