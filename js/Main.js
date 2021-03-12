@@ -27,8 +27,8 @@ document.addEventListener("keydown", (e) => {
     case "S":
       cena1.parar();
       break;
-
-    default:
+    case "c":
+      assets.audio("moeda").play();
       break;
   }
 });
