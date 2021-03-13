@@ -3,7 +3,8 @@ import Sprite from "./Sprites.js";
 import AssetManager from "./AssetManager.js";
 import Mixer from "./Mixer.js";
 
-const assets = new AssetManager();
+const mixer = new Mixer(10);
+const assets = new AssetManager(mixer);
 
 assets.carregaImagem("garota", "assets/garota.png");
 assets.carregaImagem("esqueleto", "assets/skelly.png");
@@ -11,7 +12,6 @@ assets.carregaImagem("orc", "assets/orc.png");
 assets.carregaAudio("moeda", "assets/coin.wav");
 assets.carregaAudio("boom", "assets/boom.wav");
 
-const mixer = new Mixer(10);
 
 const canvas = document.querySelector("canvas");
 const cena1 = new Cena(canvas, assets);
@@ -33,10 +33,10 @@ document.addEventListener("keydown", (e) => {
       cena1.parar();
       break;
     case "c":
-      mixer.play(assets.audio("moeda"));
+      assets.play("moeda");
       break;
     case "b":
-      mixer.play(assets.audio("boom"));
+      assets.play("boom");
       break;
   }
 });

@@ -1,16 +1,17 @@
 export default class AssetManager {
-  constructor() {
+  constructor(mixer = null) {
     this.aCarregar = 0;
     this.carregadas = 0;
     this.imagens = new Map();
     this.audios = new Map();
+    this.mixer = mixer;
   }
 
   carregaImagem(chave, source) {
     const img1 = new Image();
     img1.addEventListener("load", () => {
-        console.log(`Imagem ${this.carregadas}/${this.aCarregar} carregada!`);
-        this.carregadas++;
+      console.log(`Imagem ${this.carregadas}/${this.aCarregar} carregada!`);
+      this.carregadas++;
     });
 
     img1.src = source;
@@ -21,8 +22,8 @@ export default class AssetManager {
   carregaAudio(chave, source) {
     const audio = new Audio();
     audio.addEventListener("loadeddata", () => {
-        console.log(`Audio ${this.carregadas}/${this.aCarregar} carregado!`);
-        this.carregadas++;
+      console.log(`Audio ${this.carregadas}/${this.aCarregar} carregado!`);
+      this.carregadas++;
     });
 
     audio.src = source;
@@ -45,7 +46,11 @@ export default class AssetManager {
     return "Nada a carregar";
   }
 
-  acabou(){
-      return this.carregadas === this.aCarregar;
+  acabou() {
+    return this.carregadas === this.aCarregar;
+  }
+
+  play(chave) {
+    this.mixer?.play(this.audio(chave));
   }
 }
