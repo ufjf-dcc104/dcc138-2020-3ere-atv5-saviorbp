@@ -6,7 +6,9 @@ const assets = new AssetManager();
 
 assets.carregaImagem("garota", "assets/garota.png");
 assets.carregaImagem("esqueleto", "assets/skelly.png");
+assets.carregaImagem("orc", "assets/orc.png");
 assets.carregaAudio("moeda", "assets/coin.wav");
+assets.carregaAudio("boom", "assets/boom.wav");
 
 const canvas = document.querySelector("canvas");
 const cena1 = new Cena(canvas, assets);
@@ -29,6 +31,9 @@ document.addEventListener("keydown", (e) => {
       break;
     case "c":
       assets.audio("moeda").play();
+      break;
+    case "b":
+      assets.audio("boom").play();
       break;
   }
 });

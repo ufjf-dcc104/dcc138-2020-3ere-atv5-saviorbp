@@ -1,5 +1,5 @@
 export default class AssetManager {
-  construtor() {
+  constructor() {
     this.aCarregar = 0;
     this.carregadas = 0;
     this.imagens = new Map();
