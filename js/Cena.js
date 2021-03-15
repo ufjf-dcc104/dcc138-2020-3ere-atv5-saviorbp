@@ -12,6 +12,7 @@ export default class Cena {
     this.idAnim = null;
     this.assets = assets;
     this.mapa = null;
+    this.criar = 2;
   }
   desenhar() {
     this.ctx.fillStyle = "lightblue";
@@ -33,10 +34,20 @@ export default class Cena {
     sprite.cena = this;
     this.sprites.push(sprite);
   }
+
+  criarDesenho() {
+    
+    }
+
   passo(dt) {
     if (this.assets.acabou()) {
       for (const sprite of this.sprites) {
         sprite.passo(dt);
+      }
+      this.criar -= dt;
+      if (this.criar <= 0) {
+        this.criar = 2;
+        this.criarDesenho();
       }
     }
   }
