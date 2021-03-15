@@ -37,7 +37,7 @@ export default class Cena {
 
   criarDesenho() {
     
-    }
+  }
 
   passo(dt) {
     if (this.assets.acabou()) {

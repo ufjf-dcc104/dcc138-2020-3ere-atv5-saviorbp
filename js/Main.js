@@ -16,19 +16,13 @@ assets.carregaAudio("boom", "assets/boom.wav");
 
 
 const canvas = document.querySelector("canvas");
-canvas.width = 14 * 32;
-canvas.height = 10 * 32;
+canvas.width = 20 * 32;
+canvas.height = 20 * 32;
 const cena1 = new Cena(canvas, assets);
 
-const mapa1 = new Mapa(10, 14, 32);
+const mapa1 = new Mapa(20, 20, 32);
 mapa1.carregaMapa(modeloMapa1);
 cena1.configuraMapa(mapa1);
-
-const pc = new Sprite({ x: 250, y: 200, vx: 10 });
-const en1 = new Sprite({ x: 180, y: 200, vx: -10, color: "red" });
-
-cena1.adicionar(pc);
-cena1.adicionar(en1);
 
 cena1.criarDesenho = function () {
   let nmy = Math.floor(Math.random() * (this.mapa.tiles.length - 2)) + 1;
