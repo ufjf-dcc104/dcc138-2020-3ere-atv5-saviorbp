@@ -1,7 +1,5 @@
 export default class Sprite {
-  /*
-       É responsável por modelar algo que se move na tela.
-      */
+
   constructor({
     x = 100,
     y = 100,
@@ -9,7 +7,7 @@ export default class Sprite {
     vy = 0,
     w = 20,
     h = 20,
-    color = "white",
+    color = "green",
   } = {}) {
     this.x = x;
     this.y = y;
@@ -25,7 +23,7 @@ export default class Sprite {
   desenhar(ctx) {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-    ctx.strokeStyle = "blue";
+    ctx.strokeStyle = this.color;
     ctx.strokeRect(
       this.mx * this.cena.mapa.SIZE,
       this.my * this.cena.mapa.SIZE,
@@ -51,15 +49,18 @@ export default class Sprite {
     this.aplicaRestricoesDireita(this.mx + 1, this.my - 1);
     this.aplicaRestricoesDireita(this.mx + 1, this.my);
     this.aplicaRestricoesDireita(this.mx + 1, this.my + 1);
+
     this.aplicaRestricoesEsquerda(this.mx - 1, this.my - 1);
     this.aplicaRestricoesEsquerda(this.mx - 1, this.my);
     this.aplicaRestricoesEsquerda(this.mx - 1, this.my + 1);
-    this.aplicaRestricoesBaixo(this.mx - 1, this.my + 1);
-    this.aplicaRestricoesBaixo(this.mx, this.my + 1);
+
     this.aplicaRestricoesBaixo(this.mx + 1, this.my + 1);
-    this.aplicaRestricoesCima(this.mx - 1, this.my - 1);
-    this.aplicaRestricoesCima(this.mx, this.my - 1);
+    this.aplicaRestricoesBaixo(this.mx, this.my + 1);
+    this.aplicaRestricoesBaixo(this.mx - 1, this.my + 1);
+
     this.aplicaRestricoesCima(this.mx + 1, this.my - 1);
+    this.aplicaRestricoesCima(this.mx, this.my - 1);
+    this.aplicaRestricoesCima(this.mx - 1, this.my - 1);
   }
   aplicaRestricoesDireita(pmx, pmy) {
     const SIZE = this.cena.mapa.SIZE;
@@ -76,6 +77,7 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vx = 0;
           this.x = tile.x - tile.w / 2 - this.w / 2 - 1;
+          this.cena.assets.play("boom");
         }
       }
     }
@@ -95,6 +97,7 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vx = 0;
           this.x = tile.x + tile.w / 2 + this.w / 2 + 1;
+          this.cena.assets.play("boom");
         }
       }
     }
@@ -115,6 +118,7 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vy = 0;
           this.y = tile.y - tile.h / 2 - this.h / 2 - 1;
+          this.cena.assets.play("boom");
         }
       }
     }
@@ -134,8 +138,36 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vy = 0;
           this.y = tile.y + tile.h / 2 + this.h / 2 + 1;
+          this.cena.assets.play("boom");
         }
       }
     }
+  }
+  reposicionar() {
+  
+    let Invalido = 1;
+    let xa, ya;
+    while (Invalido === 1) {
+      xa = Math.floor(Math.random() * 11 * 32) + 64;
+      let mx = Math.floor(xa / this.cena.mapa.SIZE);
+      ya = Math.floor(Math.random() * 11 * 32) + 64;
+      let my = Math.floor(ya / this.cena.mapa.SIZE);
+      if (mx < 15 && my < 15) {
+        if (this.cena.mapa.tiles[my][mx] != 1) {
+          Invalido = 0;
+        }
+      }
+    }
+    this.x = xa;
+    this.y = ya;
+
+    let vxa = Math.floor(Math.random() * 11);
+    let positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
+    vxa = vxa * Math.pow(-1, positivoOuNegativo);
+    let vya = Math.floor(Math.random() * 11);
+    positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
+    vya = vya * Math.pow(-1, positivoOuNegativo);
+    this.vx = vxa;
+    this.vy = vya;
   }
 }
