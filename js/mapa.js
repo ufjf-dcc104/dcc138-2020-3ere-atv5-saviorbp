@@ -1,5 +1,5 @@
 export default class Mapa {
-  constructor(linhas = 8, colunas = 12, tamanho = 32) {
+  constructor(linhas = 20, colunas = 20, tamanho = 32) {
     this.LINHAS = linhas;
     this.COLUNAS = colunas;
     this.SIZE = tamanho;
@@ -14,28 +14,28 @@ export default class Mapa {
   }
 
   desenhar(ctx) {
+    let img = new Image();
+    img = this.cena.assets.img("textura");
+    let linha = 11;
+    let coluna = 23;
+    let l1 = 31;
+    let c1 = 26;
+    let l2 = 11;
+    let c2 = 17;
     for (let l = 0; l < this.LINHAS; l++) {
       for (let c = 0; c < this.COLUNAS; c++) {
-        switch (this.tiles[l][c]) {
-          case 1:
-            ctx.fillStyle = "grey";
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "black";
-            ctx.fillRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
-            ctx.strokeRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
-            break;
-          case 2:
-            ctx.fillStyle = "red";
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "orange";
-            ctx.fillRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
-            ctx.strokeRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
-            break;
-          default:
-            ctx.fillStyle = "black";
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "grey";
+
+        ctx.drawImage(img, coluna * 32, linha * 32, 32, 32,
+          c * 32, l * 32, 32, 32);
+        if (this.tiles[l][c] == 1) {
+          ctx.drawImage(img, c1 * 32, l1 * 32, 32, 32,
+            c * 32, l * 32, 32, 32);
         }
+        if (this.tiles[l][c] == 2) {
+          ctx.drawImage(img, c2 * 32, l2 * 32, 32, 32,
+            c * 32, l * 32, 32, 32);
+        }
+        ctx.strokeRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
       }
     }
   }
