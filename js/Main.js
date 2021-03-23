@@ -8,7 +8,6 @@ import modeloMapa1 from "../maps/mapa1.js";
 const mixer = new Mixer(10);
 const assets = new AssetManager(mixer);
 
-assets.carregaImagem("orc", "assets/orc.png");
 assets.carregaImagem("textura", "assets/textura.png");
 assets.carregaAudio("bate", "assets/coin.wav");
 assets.carregaAudio("boom", "assets/boom.wav");
