@@ -1,7 +1,7 @@
+import Sprite from "./Sprites.js";
+
 export default class Cena {
-  /*
-     É responsável por desenhar elementos na tela em uma animação.
-    */
+
   constructor(canvas, assets = null) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
@@ -12,10 +12,10 @@ export default class Cena {
     this.idAnim = null;
     this.assets = assets;
     this.mapa = null;
-    this.criar = 2;
+    this.criar = 0;
   }
   desenhar() {
-    this.ctx.fillStyle = "lightblue";
+    this.ctx.fillStyle = "green";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.mapa?.desenhar(this.ctx);
@@ -35,43 +35,70 @@ export default class Cena {
     this.sprites.push(sprite);
   }
 
-  criarDesenho() {
-    
-  }
-
   passo(dt) {
     if (this.assets.acabou()) {
       for (const sprite of this.sprites) {
         sprite.passo(dt);
       }
-      this.criar -= dt;
-      if (this.criar <= 0) {
-        this.criar = 2;
-        this.criarDesenho();
-      }
     }
   }
-
-  quadro(t) {
-    this.t0 = this.t0 ?? t;
-    this.dt = (t - this.t0) / 1000;
-
-    this.passo(this.dt);
-    this.desenhar();
-    this.checaColisao();
-    this.removerSprites();
-
-    this.iniciar();
-    this.t0 = t;
+  MudaEstado() {
+    for (const sprite of this.sprites) {
+      sprite.reposicionar();
+    }
+    this.criaSprite();
   }
-  iniciar() {
-    this.idAnim = requestAnimationFrame((t) => {
-      this.quadro(t);
-    });
+  criaSprite() {
+    let Invalido = 1;
+    let xa, ya;
+    while (Invalido == 1) {
+      xa = Math.floor(Math.random() * 11 * 32) + 64;
+      let mx = Math.floor(xa / this.mapa.SIZE);
+      ya = Math.floor(Math.random() * 11 * 32) + 64;
+      let my = Math.floor(ya / this.mapa.SIZE);
+
+      if (mx < 20 && my < 20) {
+        if (this.mapa.tiles[my][mx] != 1) {
+          Invalido = 0;
+        }
+      }
+    }
+    let vxa = Math.floor(Math.random() * 11);
+    let positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
+    vxa = vxa * Math.pow(-1, positivoOuNegativo);
+    let vya = Math.floor(Math.random() * 11);
+    positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
+    vya = vya * Math.pow(-1, positivoOuNegativo);
+    const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red" });
+    this.adicionar(en1);
+
   }
-  parar() {
-    cancelAnimationFrame(this.idAnim);
-    this.t0 = null;
+
+    quadro(t) {
+      this.t0 = this.t0 ?? t;
+      this.dt = (t - this.t0) / 1000;
+      this.criar = this.dt + this.criar;
+      if (this.criar > 4) {
+        this.MudaEstado();
+        this.criar = 0;
+      }
+      this.passo(this.dt);
+      this.desenhar();
+      this.checaColisao();
+      this.removerSprites();
+      
+      this.iniciar();
+      this.t0 = t;
+    }
+    
+    iniciar() {
+      this.idAnim = requestAnimationFrame((t) => {
+        this.quadro(t);
+      });
+    }
+    parar() {
+      cancelAnimationFrame(this.idAnim);
+      this.t0 = null;
     this.dt = 0;
   }
   checaColisao() {
@@ -94,8 +121,9 @@ export default class Cena {
     }
   }
   removerSprites() {
-    for (const alvo of this.aRemover) {
-      const idx = this.sprites.indexOf(alvo);
+      for (let i = 0; i < this.aRemover.length; i++) {
+        const alvo = this.aRemover[i];
+        const idx = this.sprites.indexOf(alvo);
       if (idx >= 0) {
         this.sprites.splice(idx, 1);
       }
