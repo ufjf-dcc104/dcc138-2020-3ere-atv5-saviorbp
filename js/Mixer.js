@@ -8,8 +8,8 @@ export default class Mixer {
     this.canais = [];
     for (let c = 0; c < this.CANAIS; c++) {
       const canal = {
-        fim: new Date().getTime(),
         audio: new Audio(),
+        fim: new Date().getTime(),
       };
       this.canais[c] = canal;
     }
@@ -23,7 +23,7 @@ export default class Mixer {
         canal.audio.src = audio.src;
         canal.fim = agora + audio.duration * 1000;
         canal.audio.play();
-        console.log(`play canal ${c} ${canal.fim}`);
+        console.log(`play canal ${c} ${canal.fim}`)
         break;
       }
     }
