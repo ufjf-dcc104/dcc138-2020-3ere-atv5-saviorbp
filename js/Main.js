@@ -23,20 +23,3 @@ mapa1.carregaMapa(modeloMapa1);
 cena1.configuraMapa(mapa1);
 
 cena1.iniciar();
-
-document.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    case "s":
-      cena1.iniciar();
-      break;
-    case "S":
-      cena1.parar();
-      break;
-    case "c":
-      assets.play("bate");
-      break;
-    case "b":
-      assets.play("boom");
-      break;
-  }
-});
