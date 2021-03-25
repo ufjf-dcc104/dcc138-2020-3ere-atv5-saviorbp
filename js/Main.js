@@ -20,10 +20,10 @@ canvas.width = 20 * 32;
 canvas.height = 20 * 32;
 
 input.configurarTeclado({
-  "ArrowLeft": "MOVE_ESQUERDA",
-  "ArrowRight": "MOVE_DIREITA",
-  "ArrowUp": "MOVE_CIMA",
-  "ArrowDown": "MOVE_BAIXO",
+  ArrowLeft: "MOVE_ESQUERDA",
+  ArrowRight: "MOVE_DIREITA",
+  ArrowUp: "MOVE_CIMA",
+  ArrowDown: "MOVE_BAIXO",
 });
 
 const cena1 = new Cena(canvas, assets);
@@ -48,4 +48,15 @@ pc.controlar = function (dt) {
 };
 
 cena1.adicionar(pc);
+
+function perseguePC(dt) {
+  this.vx = 25 * Math.sign(pc.x - this.x);
+  this.vy = 25 * Math.sign(pc.y - this.y);
+  
+}
+
+const en1 = new Sprite({x:360, color:"red", controlar: perseguePC});
+
+cena1.adicionar(en1);
+
 cena1.iniciar();

@@ -8,6 +8,7 @@ export default class Sprite {
     w = 20,
     h = 20,
     color = "black",
+    controlar = ()=>{}
   } = {}) {
     this.x = x;
     this.y = y;
@@ -19,6 +20,7 @@ export default class Sprite {
     this.cena = null;
     this.mx = 0;
     this.my = 0;
+    this.controlar = controlar;
   }
   desenhar(ctx) {
     ctx.fillStyle = this.color;
@@ -46,6 +48,7 @@ export default class Sprite {
     this.controlar(dt);
     this.mover(dt);
   }
+
   colidiuCom(outro) {
     return !(
       this.x - this.w / 2 > outro.x + outro.w / 2 ||

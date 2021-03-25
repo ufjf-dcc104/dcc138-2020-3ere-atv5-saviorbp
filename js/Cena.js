@@ -42,6 +42,7 @@ export default class Cena {
       }
     }
   }
+
   MudaEstado() {
     for (const sprite of this.sprites) {
       sprite.reposicionar();
@@ -69,8 +70,9 @@ export default class Cena {
     let vya = Math.floor(Math.random() * 11);
     positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
     vya = vya * Math.pow(-1, positivoOuNegativo);
-    const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red" });
+    const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red"});
     this.adicionar(en1);
+
 
   }
 
