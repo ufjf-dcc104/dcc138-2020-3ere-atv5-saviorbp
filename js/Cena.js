@@ -7,7 +7,7 @@ export default class Cena {
     this.ctx = canvas.getContext("2d");
     this.sprites = [];
     this.aRemover = [];
-    this.t0 = 0;
+    this.t0 = null;
     this.dt = 0;
     this.idAnim = null;
     this.assets = assets;
@@ -71,37 +71,35 @@ export default class Cena {
     let vya = Math.floor(Math.random() * 11);
     positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
     vya = vya * Math.pow(-1, positivoOuNegativo);
-    const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red"});
+    const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red" });
     this.adicionar(en1);
-
-
   }
 
-    quadro(t) {
-      this.t0 = this.t0 ?? t;
-      this.dt = (t - this.t0) / 1000;
-      this.criar = this.dt + this.criar;
-      if (this.criar > 4) {
-        this.MudaEstado();
-        this.criar = 0;
-      }
-      this.passo(this.dt);
-      this.desenhar();
-      this.checaColisao();
-      this.removerSprites();
-      
-      this.iniciar();
-      this.t0 = t;
+  quadro(t) {
+    this.t0 = this.t0 ?? t;
+    this.dt = (t - this.t0) / 1000;
+    this.criar = this.dt + this.criar;
+    if (this.criar > 4) {
+      this.MudaEstado();
+      this.criar = 0;
     }
-    
-    iniciar() {
-      this.idAnim = requestAnimationFrame((t) => {
-        this.quadro(t);
-      });
-    }
-    parar() {
-      cancelAnimationFrame(this.idAnim);
-      this.t0 = null;
+    this.passo(this.dt);
+    this.desenhar();
+    this.checaColisao();
+    this.removerSprites();
+
+    this.iniciar();
+    this.t0 = t;
+  }
+
+  iniciar() {
+    this.idAnim = requestAnimationFrame((t) => {
+      this.quadro(t);
+    });
+  }
+  parar() {
+    cancelAnimationFrame(this.idAnim);
+    this.t0 = null;
     this.dt = 0;
   }
   checaColisao() {
@@ -124,9 +122,9 @@ export default class Cena {
     }
   }
   removerSprites() {
-      for (let i = 0; i < this.aRemover.length; i++) {
-        const alvo = this.aRemover[i];
-        const idx = this.sprites.indexOf(alvo);
+    for (let i = 0; i < this.aRemover.length; i++) {
+      const alvo = this.aRemover[i];
+      const idx = this.sprites.indexOf(alvo);
       if (idx >= 0) {
         this.sprites.splice(idx, 1);
       }
