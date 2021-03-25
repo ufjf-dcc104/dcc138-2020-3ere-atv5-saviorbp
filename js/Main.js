@@ -1,7 +1,7 @@
 import AssetManager from "./AssetManager.js";
 import Cena from "./Cena.js";
 import Sprite from "./Sprites.js";
-import Mapa from "./mapa.js";
+import Mapa from "./Mapa.js";
 import Mixer from "./Mixer.js";
 import modeloMapa1 from "../maps/mapa1.js";
 import InputManager from "./InputManager.js";
@@ -27,6 +27,7 @@ input.configurarTeclado({
   ArrowRight: "MOVE_DIREITA",
   ArrowUp: "MOVE_CIMA",
   ArrowDown: "MOVE_BAIXO",
+  " ": "PROXIMA_CENA",
 });
 
 const game = new Game(canvas, assets, input);
