@@ -63,4 +63,21 @@ const en1 = new Sprite({x:360, color:"red", controlar: perseguePC});
 
 cena1.adicionar(en1);
 
-cena1.iniciar();
+game.iniciar();
+
+document.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "s":
+      game.iniciar();
+      break;
+      case "S":
+      game.parar();
+      break;
+      case "c":
+      assets.play("boom");
+      break;
+  
+    default:
+      break;
+  }
+})
