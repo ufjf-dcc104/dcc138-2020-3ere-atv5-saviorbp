@@ -35,6 +35,7 @@ export default class Mapa {
           ctx.drawImage(img, c2 * 32, l2 * 32, 32, 32,
             c * 32, l * 32, 32, 32);
         }
+        ctx.strokeStyle = "gray";
         ctx.strokeRect(c * this.SIZE, l * this.SIZE, this.SIZE, this.SIZE);
       }
     }

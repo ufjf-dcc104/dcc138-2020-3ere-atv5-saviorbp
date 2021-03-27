@@ -24,7 +24,7 @@ export default class Sprite {
     this.controlar = controlar;
     this.tags = new Set();
     tags.forEach((tag) => {
-      this.tags.add(tags);
+      this.tags.add(tag);
     });
   }
   desenhar(ctx) {
@@ -62,24 +62,25 @@ export default class Sprite {
       this.y + this.h / 2 < outro.y - outro.h / 2
     );
   }
-  aplicaRestricoes(dt) {
-    this.aplicaRestricoesDireita(this.mx + 1, this.my - 1);
-    this.aplicaRestricoesDireita(this.mx + 1, this.my);
-    this.aplicaRestricoesDireita(this.mx + 1, this.my + 1);
+  aplicaRestrições(dt) {
+    this.aplicaRestriçõesDireita(this.mx + 1, this.my);
+    this.aplicaRestriçõesBaixo(this.mx, this.my + 1);
+    this.aplicaRestriçõesEsquerda(this.mx - 1, this.my);
+    this.aplicaRestriçõesCima(this.mx, this.my - 1);
 
-    this.aplicaRestricoesEsquerda(this.mx - 1, this.my - 1);
-    this.aplicaRestricoesEsquerda(this.mx - 1, this.my);
-    this.aplicaRestricoesEsquerda(this.mx - 1, this.my + 1);
+    this.aplicaRestriçõesDireita(this.mx + 1, this.my - 1);
+    this.aplicaRestriçõesDireita(this.mx + 1, this.my + 1);
 
-    this.aplicaRestricoesBaixo(this.mx + 1, this.my + 1);
-    this.aplicaRestricoesBaixo(this.mx, this.my + 1);
-    this.aplicaRestricoesBaixo(this.mx - 1, this.my + 1);
+    this.aplicaRestriçõesEsquerda(this.mx - 1, this.my - 1);
+    this.aplicaRestriçõesEsquerda(this.mx - 1, this.my + 1);
 
-    this.aplicaRestricoesCima(this.mx + 1, this.my - 1);
-    this.aplicaRestricoesCima(this.mx, this.my - 1);
-    this.aplicaRestricoesCima(this.mx - 1, this.my - 1);
+    this.aplicaRestriçõesBaixo(this.mx + 1, this.my + 1);
+    this.aplicaRestriçõesBaixo(this.mx - 1, this.my + 1);
+
+    this.aplicaRestriçõesCima(this.mx + 1, this.my - 1);
+    this.aplicaRestriçõesCima(this.mx - 1, this.my - 1);
   }
-  aplicaRestricoesDireita(pmx, pmy) {
+  aplicaRestriçõesDireita(pmx, pmy) {
     const SIZE = this.cena.mapa.SIZE;
     if (this.vx > 0) {
       if (this.cena.mapa.tiles[pmy][pmx] != 0) {
@@ -94,12 +95,11 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vx = 0;
           this.x = tile.x - tile.w / 2 - this.w / 2 - 1;
-          this.cena.assets.play("bate");
         }
       }
     }
   }
-  aplicaRestricoesEsquerda(pmx, pmy) {
+  aplicaRestriçõesEsquerda(pmx, pmy) {
     const SIZE = this.cena.mapa.SIZE;
     if (this.vx < 0) {
       if (this.cena.mapa.tiles[pmy][pmx] != 0) {
@@ -114,13 +114,12 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vx = 0;
           this.x = tile.x + tile.w / 2 + this.w / 2 + 1;
-          this.cena.assets.play("bate");
         }
       }
     }
   }
 
-  aplicaRestricoesBaixo(pmx, pmy) {
+  aplicaRestriçõesBaixo(pmx, pmy) {
     const SIZE = this.cena.mapa.SIZE;
     if (this.vy > 0) {
       if (this.cena.mapa.tiles[pmy][pmx] != 0) {
@@ -135,12 +134,11 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vy = 0;
           this.y = tile.y - tile.h / 2 - this.h / 2 - 1;
-          this.cena.assets.play("bate");
         }
       }
     }
   }
-  aplicaRestricoesCima(pmx, pmy) {
+  aplicaRestriçõesCima(pmx, pmy) {
     const SIZE = this.cena.mapa.SIZE;
     if (this.vy < 0) {
       if (this.cena.mapa.tiles[pmy][pmx] != 0) {
@@ -155,7 +153,6 @@ export default class Sprite {
         if (this.colidiuCom(tile)) {
           this.vy = 0;
           this.y = tile.y + tile.h / 2 + this.h / 2 + 1;
-          this.cena.assets.play("bate");
         }
       }
     }
@@ -169,7 +166,7 @@ export default class Sprite {
       let mx = Math.floor(xa / this.cena.mapa.SIZE);
       ya = Math.floor(Math.random() * 11 * 32) + 64;
       let my = Math.floor(ya / this.cena.mapa.SIZE);
-      if (mx < 15 && my < 15) {
+      if (mx < 20 && my < 20) {
         if (this.cena.mapa.tiles[my][mx] != 1) {
           Invalido = 0;
         }

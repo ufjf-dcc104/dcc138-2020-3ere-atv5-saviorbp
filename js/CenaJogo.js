@@ -5,29 +5,30 @@ import modeloMapa1 from "../maps/mapa1.js";
 
 export default class CenaJogo extends Cena {
     quandoColidir(a, b) {
-        if (!this.aRemover.includes(a)) {
-            this.aRemover.push(a);
-        }
-        if (!this.aRemover.includes(b)) {
-            this.aRemover.push(b);
-        }
-        if (a.tags.has("pc") && b.tags.has("enemy")) {
+        if ((a.tags.has("pc") && b.tags.has("enemy")) ||
+            (b.tags.has("pc") && a.tags.has("enemy"))) {
+            console.log(a, b);
             this.game.selecionaCena("fim");
+            this.assets.play("bate");
+            if (!this.aRemover.includes(b)) {
+                this.aRemover.push(b);
+            }
+            
         }
     }
 
     preparar() {
         super.preparar();
+        this.criar = 0;
         const mapa1 = new Mapa(20, 20, 32);
         mapa1.carregaMapa(modeloMapa1);
         this.configuraMapa(mapa1);
 
-        const pc = new Sprite({ x: 50, y: 150 });
-        pc.tags.add("pc");
+        const pc = new Sprite({ x: 50, y: 150, color: "blue", tags: ["pc"] });
         const cena = this;
         pc.controlar = function (dt) {
             if (cena.input.comandos.get("MOVE_ESQUERDA")) {
-            this.vx = -50;
+                this.vx = -50;
             } else if (cena.input.comandos.get("MOVE_DIREITA")) {
                 this.vx = +50;
             } else if (cena.input.comandos.get("MOVE_CIMA")) {
@@ -47,9 +48,59 @@ export default class CenaJogo extends Cena {
 
         }
 
-        const en1 = new Sprite({ x: 360, color: "red", controlar: perseguePC, tags: ["enemy"] });
+        const en1 = new Sprite({ x: 360, color: "orange", controlar: perseguePC, tags: ["enemy"] });
 
         this.adicionar(en1);
 
+    }
+
+    criaSprite() {
+        let invalido = 1;
+        let xa, ya;
+        while (invalido == 1) {
+            xa = Math.floor(Math.random() * 11 * 32) + 64;
+            let mx = Math.floor(xa / this.mapa.SIZE);
+            ya = Math.floor(Math.random() * 11 * 32) + 64;
+            let my = Math.floor(ya / this.mapa.SIZE);
+
+            if (mx < 20 && my < 20) {
+                if (this.mapa.tiles[my][mx] != 1) {
+                    invalido = 0;
+                }
+            }
+        }
+        let vxa = Math.floor(Math.random() * 11);
+        let positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
+        vxa = vxa * Math.pow(-1, positivoOuNegativo);
+        let vya = Math.floor(Math.random() * 11);
+        positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
+        vya = vya * Math.pow(-1, positivoOuNegativo);
+        const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red", tags: ["enemy"] });
+        this.adicionar(en1);
+    }
+    mudaEstado() {
+        //for (const sprite of this.sprites) {
+        //sprite.reposicionar();
+        //}
+        this.criaSprite();
+    }
+
+    quadro(t) {
+        this.t0 = this.t0 ?? t;
+        this.dt = (t - this.t0) / 1000;
+        this.criar = this.dt + this.criar;
+        if (this.criar > 4) {
+            this.mudaEstado();
+            this.criar = 0;
+        }
+        this.passo(this.dt);
+        this.desenhar();
+        this.checaColisao();
+        this.removerSprites();
+
+        if (this.rodando) {
+            this.iniciar()
+        };
+        this.t0 = t;
     }
 }

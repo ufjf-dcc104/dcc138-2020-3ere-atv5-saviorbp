@@ -18,8 +18,8 @@ export default class Cena {
     if (this.assets.acabou()) {
       for (let s = 0; s < this.sprites.length; s++) {
         const sprite = this.sprites[s];
+        sprite.aplicaRestrições();
         sprite.desenhar(this.ctx);
-        sprite.aplicaRestricoes();
       }
     }
     this.ctx.fillStyle = "yellow";
@@ -28,6 +28,7 @@ export default class Cena {
   adicionar(sprite) {
     sprite.cena = this;
     this.sprites.push(sprite);
+    console.log(sprite);
   }
 
   passo(dt) {
@@ -38,45 +39,10 @@ export default class Cena {
     }
   }
 
-  MudaEstado() {
-    for (const sprite of this.sprites) {
-      sprite.reposicionar();
-    }
-    this.criaSprite();
-  }
-  criaSprite() {
-    let Invalido = 1;
-    let xa, ya;
-    while (Invalido == 1) {
-      xa = Math.floor(Math.random() * 11 * 32) + 64;
-      let mx = Math.floor(xa / this.mapa.SIZE);
-      ya = Math.floor(Math.random() * 11 * 32) + 64;
-      let my = Math.floor(ya / this.mapa.SIZE);
-
-      if (mx < 20 && my < 20) {
-        if (this.mapa.tiles[my][mx] != 1) {
-          Invalido = 0;
-        }
-      }
-    }
-    let vxa = Math.floor(Math.random() * 11);
-    let positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
-    vxa = vxa * Math.pow(-1, positivoOuNegativo);
-    let vya = Math.floor(Math.random() * 11);
-    positivoOuNegativo = Math.floor(Math.random() * 10) + 1;
-    vya = vya * Math.pow(-1, positivoOuNegativo);
-    const en1 = new Sprite({ x: xa, y: ya, w: 20, h: 20, vx: vxa, vy: vya, color: "red" });
-    this.adicionar(en1);
-  }
-
   quadro(t) {
     this.t0 = this.t0 ?? t;
     this.dt = (t - this.t0) / 1000;
-    this.criar = this.dt + this.criar;
-    if (this.criar > 4) {
-      this.MudaEstado();
-      this.criar = 0;
-    }
+  
     this.passo(this.dt);
     this.desenhar();
     this.checaColisao();
@@ -142,7 +108,6 @@ export default class Cena {
     this.dt = 0;
     this.idAnim = null;
     this.mapa = null;
-    this.criar = 0;
     this.rodando = true;
   }
 }
