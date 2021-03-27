@@ -8,7 +8,8 @@ export default class Sprite {
     w = 20,
     h = 20,
     color = "black",
-    controlar = ()=>{}
+    controlar = ()=>{},
+    tags = [],
   } = {}) {
     this.x = x;
     this.y = y;
@@ -21,6 +22,10 @@ export default class Sprite {
     this.mx = 0;
     this.my = 0;
     this.controlar = controlar;
+    this.tags = new Set();
+    tags.forEach((tag) => {
+      this.tags.add(tags);
+    });
   }
   desenhar(ctx) {
     ctx.fillStyle = this.color;
