@@ -2,15 +2,18 @@ import Sprite from "./Sprites.js";
 
 export default class Cena {
   
-  constructor(canvas = null, assets = null) {
+  constructor(canvas = null, assets = null, modelo) {
     this.canvas = canvas;
     this.ctx = canvas?.getContext("2d");
     this.assets = assets;
     this.game = null;
     this.preparar();
+    this.modelo = modelo;
+    this.rodando = true;
+    this.ponto = 0;
   }
   desenhar() {
-    this.ctx.fillStyle = "green";
+    this.ctx.fillStyle = "white";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.mapa?.desenhar(this.ctx);
@@ -28,7 +31,6 @@ export default class Cena {
   adicionar(sprite) {
     sprite.cena = this;
     this.sprites.push(sprite);
-    console.log(sprite);
   }
 
   passo(dt) {

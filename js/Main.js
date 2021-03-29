@@ -11,6 +11,10 @@ const mixer = new Mixer(10);
 const assets = new AssetManager(mixer);
 
 assets.carregaImagem("textura", "assets/textura.png");
+assets.carregaImagem("garota", "assets/garota.png");
+assets.carregaImagem("estrela", "assets/estrela.png");
+assets.carregaImagem("skelly", "assets/skelly.png");
+assets.carregaImagem("bau", "assets/bau.png");
 assets.carregaAudio("bate", "assets/coin.wav");
 assets.carregaAudio("boom", "assets/boom.wav");
 
@@ -31,10 +35,12 @@ const game = new Game(canvas, assets, input);
 
 const cena0 = new CenaCarregando();
 const cena1 = new CenaJogo();
-const cena2 = new CenaFim();
+const cena2= new CenaJogo();
+const cena3 = new CenaFim();
 game.adicionarCena("carregando",cena0);
 game.adicionarCena("jogo",cena1);
-game.adicionarCena("fim",cena2);
+game.adicionarCena("jogo2",cena2);
+game.adicionarCena("fim",cena3);
 
 game.iniciar();
 

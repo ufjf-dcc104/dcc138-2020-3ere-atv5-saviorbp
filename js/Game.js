@@ -7,6 +7,10 @@ export default class Game {
         this.input = input;
         this.cenas = new Map();
         this.cena = null;
+        this.ponto = 0;
+        this.bau = 0;
+        this.moeda = 0;
+        this.elimina = 0;
     }
     adicionarCena(chave, cena){
         this.cenas.set(chave, cena);
@@ -21,7 +25,7 @@ export default class Game {
     }
     selecionaCena(chave){
         if(this.cenas.has(chave)){
-            console.log(chave);
+            this.cena.rodando = false;
             this.parar();
             this.cena = this.cenas.get(chave);
             this.cena.preparar();
