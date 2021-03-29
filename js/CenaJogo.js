@@ -2,18 +2,26 @@ import Cena from "./Cena.js";
 import Sprite from "./Sprites.js";
 import Mapa from "./Mapa.js";
 import modeloMapa1 from "../maps/mapa1.js";
+import modeloMapa2 from "../maps/mapa2.js";
 
 export default class CenaJogo extends Cena {
     quandoColidir(a, b) {
         if ((a.tags.has("pc") && b.tags.has("enemy")) ||
             (b.tags.has("pc") && a.tags.has("enemy"))) {
-            console.log(a, b);
             this.game.selecionaCena("fim");
             this.assets.play("bate");
             if (!this.aRemover.includes(b)) {
                 this.aRemover.push(b);
             }
-            
+            else{
+                if(a.tags.has("enemy")&& b.tags.has("enemy"))
+                {
+                    this.assets.play("boom");
+                    this.game.ponto++;
+                    this.game.elimina++;
+                }
+    
+            }
         }
     }
 
@@ -21,7 +29,11 @@ export default class CenaJogo extends Cena {
         super.preparar();
         this.criar = 0;
         const mapa1 = new Mapa(20, 20, 32);
-        mapa1.carregaMapa(modeloMapa1);
+        if (this.modelo == 1) {
+            mapa1.carregaMapa(modeloMapa1);
+        }else{
+            mapa1.carregaMapa(modeloMapa2);
+        }
         this.configuraMapa(mapa1);
 
         const pc = new Sprite({ x: 50, y: 150, color: "blue", tags: ["pc"] });
